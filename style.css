@@ -6,4 +6,9 @@
     display: inline-block;
     margin: 0 20px;
     vertical-align: middle;
+    transition: transform 0.2s ease-in-out;
+}
+
+.partner-logos img:hover {
+    transform: scale(1.1);
 }
