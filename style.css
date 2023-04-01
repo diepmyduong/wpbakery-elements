@@ -1,3 +1,9 @@
-.partner-logo {
-    margin: 0 10px;
+.partner-logos {
+    text-align: center;
+}
+
+.partner-logos img {
+    display: inline-block;
+    margin: 0 20px;
+    vertical-align: middle;
 }
