@@ -1,4 +1,10 @@
 <?php
+/*
+Plugin Name: Partner Logos
+Description: A custom element for displaying a list of partner company logos.
+Version: 1.0
+Author: Your Name
+*/
 
 // Define custom element
 function custom_partner_logos() {
