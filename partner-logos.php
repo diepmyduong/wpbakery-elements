@@ -6,62 +6,30 @@ Version: 1.0
 Author: Your Name
 */
 
-// Define custom element
-function custom_partner_logos() {
-  vc_map(
-    array(
-      "name" => "Partner Logos",
-      "base" => "partner_logos",
-      "category" => "Content",
-      "params" => array(
-        array(
-          "type" => "attach_images",
-          "heading" => "Logos",
-          "param_name" => "logos",
-          "description" => "Select the logos of your partner companies."
-        ),
-        array(
-          "type" => "textfield",
-          "heading" => "Logo width",
-          "param_name" => "logo_width",
-          "description" => "Enter the width of each logo in pixels."
-        )
-      )
-    )
-  );
+// Define the shortcode for the custom element
+function partner_logos_shortcode($atts) {
+    $atts = shortcode_atts( array(
+        'images' => '',
+        'size' => '',
+    ), $atts );
+
+    $images = explode(',', $atts['images']);
+    $size = $atts['size'];
+
+    $output = '<div class="partner-logos">';
+
+    foreach ($images as $image) {
+        $output .= '<img src="' . $image . '" alt="" class="partner-logo" style="width:' . $size . 'px;height:auto;">';
+    }
+
+    $output .= '</div>';
+
+    return $output;
 }
+add_shortcode('partner_logos', 'partner_logos_shortcode');
 
-add_action( 'vc_before_init', 'custom_partner_logos' );
-
-// Define shortcode
-function custom_partner_logos_shortcode( $atts ) {
-  extract( shortcode_atts(
-    array(
-      'logos' => '',
-      'logo_width' => '100'
-    ),
-    $atts
-  ));
-
-  
-
-  $output = '<div class="partner-logos">';
-  
-  // Get array of image ids
-  $logos_array = explode(',', $logos);
-  
-  // Loop through images and add to output
-  foreach ($logos_array as $logo) {
-    $logo_src = wp_get_attachment_image_src($logo, 'full');
-    
-    $output .= '<div class="partner-logo" style="width:'.$logo_width.'px"><img src="'.$logo_src[0].'" alt=""></div>';
-  }
-  
-  $output .= '</div>';
-
-  return $output;
+// Enqueue the plugin stylesheet
+function partner_logos_enqueue_styles() {
+    wp_enqueue_style( 'partner-logos', plugin_dir_url( __FILE__ ) . 'style.css' );
 }
-
-add_shortcode( 'partner_logos', 'custom_partner_logos_shortcode' );
-
-?>
+add_action( 'wp_enqueue_scripts', 'partner_logos_enqueue_styles' );
